@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fieldnotes Learn</title><link rel="stylesheet" href="style.css"><script defer src="app.js"></script></head>
+<body>
+<header class="topbar"><a class="brand" href="#home">Fieldnotes <span>Learn</span></a><nav aria-label="Main"><a href="#lessons">My lessons</a><a href="#progress">Progress</a><button id="help" type="button">Help</button></nav><span class="offline">Available offline</span></header>
+<main id="home">
+<section class="intro"><div><p class="eyebrow">Your learning space</p><h1>A little practice.<br>A clearer understanding.</h1><p class="intro-copy">Pick up where you left off, or explore something new. Your progress stays on this device.</p></div><div class="streak" id="progress"><strong>4</strong><span>days of practice</span></div></section>
+<div class="workspace">
+<section class="lessons" id="lessons" aria-labelledby="lessons-heading"><div class="section-head"><div><h2 id="lessons-heading">Keep your curiosity going</h2><p>Short lessons for things worth knowing.</p></div><label class="search"><span>Find a lesson</span><input id="search" type="search" placeholder="Search lessons"></label></div>
+<div class="lesson-list">
+<article class="lesson"><div class="lesson-art art-one" aria-hidden="true">Aa</div><div class="lesson-body"><p class="subject">Language</p><h3>The words that connect us</h3><p>Explore how language carries meaning, context, and culture.</p><div class="lesson-meta"><span>Lesson 3 of 8</span><span>8 min</span></div><progress max="8" value="2" aria-label="Language course progress">2 of 8</progress><button id="continue" class="primary" type="button">Continue lesson</button></div></article>
+<article class="lesson"><div class="lesson-art art-two" aria-hidden="true">↗</div><div class="lesson-body"><p class="subject">Everyday science</p><h3>Small questions, big discoveries</h3><p>See the science behind the ordinary things around you.</p><div class="lesson-meta"><span>Lesson 1 of 6</span><span>6 min</span></div><progress max="6" value="0" aria-label="Science course progress">0 of 6</progress><button id="explore" class="secondary" type="button">Explore lesson</button></div></article>
+</div><p id="no-results" hidden>No lessons match your search.</p></section>
+<aside class="practice"><p class="eyebrow">A moment to remember</p><h2>Make it stick.</h2><p>Revisit one idea from your last lesson. A short review can go a long way.</p><div class="review-card"><span>Today's review</span><strong>Context changes meaning</strong><span>3 questions · about 2 minutes</span></div><button id="review" class="secondary" type="button">Start review</button><p class="note">No streaks to lose. Learn at your own pace.</p></aside>
+</div><p id="status" role="status" aria-live="polite">Ready when you are.</p>
+</main>
+<dialog id="lesson-dialog" aria-labelledby="dialog-title"><form method="dialog"><button class="close" aria-label="Close lesson" value="close">Close</button></form><h2 id="dialog-title">Context changes meaning</h2><p>What helps you understand an unfamiliar word?</p><form id="quiz"><label><input type="radio" name="answer" value="context" required> The words and situation around it</label><label><input type="radio" name="answer" value="length"> The number of letters</label><button class="primary" type="submit">Check answer</button></form><p id="feedback" role="status" aria-live="polite"></p></dialog>
+</body></html>
