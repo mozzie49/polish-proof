@@ -88,15 +88,15 @@ dialog h2 { clear: both; padding-top: 12px; margin-bottom: 16px; }
   .offline { font-size: 12px; }
   nav { order: 3; width: 100%; gap: 20px; }
   nav button { margin-left: auto; padding-right: 0; }
-  main { padding: 32px 20px 24px; }
-  .intro { display: block; margin-bottom: 32px; }
-  h1 { font-size: 34px; line-height: 1.12; letter-spacing: -1px; margin-bottom: 16px; }
-  .intro-copy { font-size: 16px; }
-  .streak { flex-direction: row; justify-content: flex-start; gap: 10px; margin-top: 20px; padding: 0; border: 0; }
+  main { padding: 24px 20px; }
+  .intro { display: block; margin-bottom: 24px; }
+  h1 { font-size: 28px; line-height: 1.15; letter-spacing: -.8px; margin-bottom: 14px; }
+  .intro-copy { font-size: 16px; line-height: 1.5; }
+  .streak { flex-direction: row; justify-content: flex-start; gap: 10px; margin-top: 16px; padding: 0; border: 0; }
   .streak strong { font-size: 26px; }
   .section-head { display: block; margin-bottom: 20px; }
   .section-head h2 { font-size: 22px; }
-  .search { margin-top: 20px; }
+  .search { margin-top: 16px; }
   .search input { width: 100%; }
   .lesson { grid-template-columns: 60px minmax(0, 1fr); gap: 16px; padding: 20px 16px; }
   .lesson-art { font-size: 30px; border-radius: 8px; }
