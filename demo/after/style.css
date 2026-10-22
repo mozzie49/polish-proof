@@ -101,7 +101,7 @@ dialog h2 { clear: both; padding-top: 12px; margin-bottom: 16px; }
   .lesson { grid-template-columns: 60px minmax(0, 1fr); gap: 16px; padding: 20px 16px; }
   .lesson-art { font-size: 30px; border-radius: 8px; }
   .art-two { font-size: 36px; }
-  h3 { font-size: 20px; }
+  h3 { font-size: 20px; text-wrap: balance; }
   .lesson-body > p:not(.subject) { margin-bottom: 16px; }
   .lesson-meta { font-size: 13px; }
   .practice { padding: 24px; }
