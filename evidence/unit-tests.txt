@@ -1,0 +1,32 @@
+
+> polish-proof@0.1.0 test
+> node --test tests/*.test.cjs
+
+✔ a valid mechanical receipt passes without inventing a beauty score (2.321622ms)
+✔ rejects changed source (0.500918ms)
+✔ rejects removed text (0.278191ms)
+✔ rejects changed control (0.272913ms)
+✔ rejects overflow (1.125612ms)
+✔ rejects tiny target (0.602081ms)
+✔ rejects offscreen target (0.247685ms)
+✔ rejects hidden target (0.276358ms)
+✔ rejects missing target (0.856295ms)
+✔ rejects ambiguous target (0.787131ms)
+✔ rejects page exception (0.987373ms)
+✔ rejects missing viewport (0.327405ms)
+✔ rejects changed browser (0.202036ms)
+✔ rejects changed threshold (0.325001ms)
+✔ valid contract accepted (2.514864ms)
+✔ rejects path traversal (1.327718ms)
+✔ rejects duplicate viewport (0.704385ms)
+✔ rejects negative threshold (0.460126ms)
+✔ hashes source and rejects symlinks outside project (2.502615ms)
+✔ capture refuses remote URLs before browser or filesystem work (1.261789ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 342.604039
