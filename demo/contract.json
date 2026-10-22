@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "viewports": [
+    {"name":"phone","width":390,"height":844},
+    {"name":"tablet","width":768,"height":1024},
+    {"name":"desktop","width":1440,"height":1000}
+  ],
+  "protectedFiles": ["index.html", "app.js"],
+  "targets": [
+    {"name":"continue","selector":"#continue","minWidth":44,"minHeight":44,"visible":true},
+    {"name":"review","selector":"#review","minWidth":44,"minHeight":44,"visible":true},
+    {"name":"search","selector":"#search","minWidth":44,"minHeight":44,"visible":true}
+  ]
+}
