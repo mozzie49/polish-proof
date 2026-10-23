@@ -1,0 +1,66 @@
+[
+  {
+    "variant": "before",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "result": "pass",
+    "flows": [
+      "filter-match",
+      "filter-empty",
+      "filter-reset",
+      "3 entries × wrong/correct answer/close",
+      "reopen/Escape",
+      "help"
+    ]
+  },
+  {
+    "variant": "before",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "result": "pass",
+    "flows": [
+      "filter-match",
+      "filter-empty",
+      "filter-reset",
+      "3 entries × wrong/correct answer/close",
+      "reopen/Escape",
+      "help"
+    ]
+  },
+  {
+    "variant": "after",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "result": "pass",
+    "flows": [
+      "filter-match",
+      "filter-empty",
+      "filter-reset",
+      "3 entries × wrong/correct answer/close",
+      "reopen/Escape",
+      "help"
+    ]
+  },
+  {
+    "variant": "after",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "result": "pass",
+    "flows": [
+      "filter-match",
+      "filter-empty",
+      "filter-reset",
+      "3 entries × wrong/correct answer/close",
+      "reopen/Escape",
+      "help"
+    ]
+  }
+]

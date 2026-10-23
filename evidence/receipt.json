@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "verdict": "mechanical-checks-pass",
+  "failures": [],
+  "views": [
+    {
+      "name": "phone",
+      "overflowBefore": 430,
+      "overflowAfter": 0,
+      "smallTextBefore": 19,
+      "smallTextAfter": 5,
+      "targets": [
+        {
+          "name": "continue",
+          "pass": true,
+          "before": {
+            "name": "continue",
+            "matches": 1,
+            "visible": true,
+            "width": 200.65625,
+            "height": 24,
+            "x": 56,
+            "y": 636.84375,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Continue lesson"
+          },
+          "after": {
+            "name": "continue",
+            "matches": 1,
+            "visible": true,
+            "width": 240,
+            "height": 46.796875,
+            "x": 113,
+            "y": 762.359375,
+            "fontSize": 16,
+            "withinHorizontalViewport": true,
+            "text": "Continue lesson"
+          }
+        },
+        {
+          "name": "review",
+          "pass": true,
+          "before": {
+            "name": "review",
+            "matches": 1,
+            "visible": true,
+            "width": 213.671875,
+            "height": 24,
+            "x": 563.328125,
+            "y": 534.796875,
+            "fontSize": 14,
+            "withinHorizontalViewport": false,
+            "text": "Start review"
+          },
+          "after": {
+            "name": "review",
+            "matches": 1,
+            "visible": true,
+            "width": 302,
+            "height": 46.796875,
+            "x": 44,
+            "y": 1492.34375,
+            "fontSize": 16,
+            "withinHorizontalViewport": true,
+            "text": "Start review"
+          }
+        },
+        {
+          "name": "search",
+          "pass": true,
+          "before": {
+            "name": "search",
+            "matches": 1,
+            "visible": true,
+            "width": 160,
+            "height": 21,
+            "x": 348.328125,
+            "y": 324.234375,
+            "fontSize": 10,
+            "withinHorizontalViewport": false,
+            "text": "Search lessons"
+          },
+          "after": {
+            "name": "search",
+            "matches": 1,
+            "visible": true,
+            "width": 350,
+            "height": 44,
+            "x": 20,
+            "y": 470.53125,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Search lessons"
+          }
+        }
+      ]
+    },
+    {
+      "name": "tablet",
+      "overflowBefore": 52,
+      "overflowAfter": 0,
+      "smallTextBefore": 19,
+      "smallTextAfter": 0,
+      "targets": [
+        {
+          "name": "continue",
+          "pass": true,
+          "before": {
+            "name": "continue",
+            "matches": 1,
+            "visible": true,
+            "width": 200.65625,
+            "height": 24,
+            "x": 56,
+            "y": 616.84375,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Continue lesson"
+          },
+          "after": {
+            "name": "continue",
+            "matches": 1,
+            "visible": true,
+            "width": 546,
+            "height": 46.796875,
+            "x": 173,
+            "y": 629.859375,
+            "fontSize": 16,
+            "withinHorizontalViewport": true,
+            "text": "Continue lesson"
+          }
+        },
+        {
+          "name": "review",
+          "pass": true,
+          "before": {
+            "name": "review",
+            "matches": 1,
+            "visible": true,
+            "width": 213.671875,
+            "height": 24,
+            "x": 563.328125,
+            "y": 514.796875,
+            "fontSize": 14,
+            "withinHorizontalViewport": false,
+            "text": "Start review"
+          },
+          "after": {
+            "name": "review",
+            "matches": 1,
+            "visible": true,
+            "width": 664,
+            "height": 46.796875,
+            "x": 52,
+            "y": 1309.4375,
+            "fontSize": 16,
+            "withinHorizontalViewport": true,
+            "text": "Start review"
+          }
+        },
+        {
+          "name": "search",
+          "pass": true,
+          "before": {
+            "name": "search",
+            "matches": 1,
+            "visible": true,
+            "width": 160,
+            "height": 21,
+            "x": 348.328125,
+            "y": 304.234375,
+            "fontSize": 10,
+            "withinHorizontalViewport": true,
+            "text": "Search lessons"
+          },
+          "after": {
+            "name": "search",
+            "matches": 1,
+            "visible": true,
+            "width": 184,
+            "height": 44,
+            "x": 560,
+            "y": 373.1875,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Search lessons"
+          }
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "overflowBefore": 0,
+      "overflowAfter": 0,
+      "smallTextBefore": 19,
+      "smallTextAfter": 0,
+      "targets": [
+        {
+          "name": "continue",
+          "pass": true,
+          "before": {
+            "name": "continue",
+            "matches": 1,
+            "visible": true,
+            "width": 340.65625,
+            "height": 24,
+            "x": 156,
+            "y": 593.453125,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Continue lesson"
+          },
+          "after": {
+            "name": "continue",
+            "matches": 1,
+            "visible": true,
+            "width": 629.0625,
+            "height": 46.796875,
+            "x": 269,
+            "y": 696.734375,
+            "fontSize": 16,
+            "withinHorizontalViewport": true,
+            "text": "Continue lesson"
+          }
+        },
+        {
+          "name": "review",
+          "pass": true,
+          "before": {
+            "name": "review",
+            "matches": 1,
+            "visible": true,
+            "width": 353.65625,
+            "height": 24,
+            "x": 943.328125,
+            "y": 514.796875,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Start review"
+          },
+          "after": {
+            "name": "review",
+            "matches": 1,
+            "visible": true,
+            "width": 300.921875,
+            "height": 46.796875,
+            "x": 991.0625,
+            "y": 746.9375,
+            "fontSize": 16,
+            "withinHorizontalViewport": true,
+            "text": "Start review"
+          }
+        },
+        {
+          "name": "search",
+          "pass": true,
+          "before": {
+            "name": "search",
+            "matches": 1,
+            "visible": true,
+            "width": 160,
+            "height": 21,
+            "x": 728.328125,
+            "y": 304.234375,
+            "fontSize": 10,
+            "withinHorizontalViewport": true,
+            "text": "Search lessons"
+          },
+          "after": {
+            "name": "search",
+            "matches": 1,
+            "visible": true,
+            "width": 184,
+            "height": 44,
+            "x": 739.0625,
+            "y": 440.0625,
+            "fontSize": 14,
+            "withinHorizontalViewport": true,
+            "text": "Search lessons"
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "This is not an aesthetic score or full accessibility audit.",
+    "Text/control/source invariants do not prove behavior; run project interaction tests.",
+    "Visual judgment still requires viewing the paired screenshots.",
+    "Small text count uses a reporting-only 14px threshold, not a universal design rule."
+  ]
+}
