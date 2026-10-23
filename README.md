@@ -2,9 +2,30 @@
 
 **Polish the screen. Keep the product. Show the receipt.**
 
-A small agent skill for improving an existing web UI without silently rewriting its copy, controls, brand or logic. It pairs visual judgment with inspectable before/after evidence. It is a complement to a design-direction skill, not a replacement for one.
+A small agent skill for improving an existing web UI without silently rewriting its copy, controls, brand or logic. A portable proof layer for your preferred design skill—not another palette catalog.
 
-**Experimental prototype.** The first local browser run was blocked by the execution sandbox. The CSS treatment is currently an unverified proposal; browser evidence must pass in CI and the screenshots must be reviewed before claiming a successful visual improvement. No external users or claim of outperforming other design skills. See [demand and competition](DEMAND.md) and [verification status](evidence/verification-status.md).
+## Same product. CSS-only polish.
+
+| Before | After |
+|---|---|
+| ![Deliberately flawed educational fixture, desktop](evidence/before-desktop.png) | ![CSS-only polished fixture, desktop](evidence/after-desktop.png) |
+
+The purple brand, Arial, all copy, HTML and JavaScript stayed intact. The treatment reduces nested containers, strengthens type hierarchy and gives Continue one clear primary treatment. [Phone before](evidence/before-phone.png) → [phone after](evidence/after-phone.png) · [tablet before](evidence/before-tablet.png) → [tablet after](evidence/after-tablet.png). Click images for native size; these are unedited full-page browser captures.
+
+**Measured, not a beauty score:**
+
+| Check | Before → after |
+|---|---|
+| Horizontal overflow, 390px phone | 430px → 0px |
+| Horizontal overflow, 768px tablet | 52px → 0px |
+| Continue button height | 24px → 46.8px |
+| Search field height | 21px → 44px |
+| Declared text/control/source invariants | Preserved at all 3 viewports |
+| Actual interaction runs | 4/4 pass: before + after, phone + desktop |
+
+[Reproducible CI](https://github.com/mozzie49/polish-proof/actions/runs/39752555452) · [raw receipt](evidence/receipt.json) · [behavior results](evidence/interactions.json) · [review, iteration and tradeoffs](evidence/verification-status.md).
+
+**Experimental, synthetic demonstration.** The baseline was deliberately authored with defects, not sampled from a real user's app. This shows an inspectable repair, not that this skill beats no-skill prompting or competing skills. No external adoption is claimed. [Demand and competition](DEMAND.md).
 
 ## Use the skill
 
@@ -27,11 +48,13 @@ The skill works with existing project/browser tools. The optional receipt helper
 - Paired screenshots from the same states/viewports.
 - A frozen contract for page text, control descriptors, protected source files and declared target dimensions.
 - Explicit interaction tests; source hashes alone are **not** behavior proof.
-- A task-based visual review with `improved / unchanged / worse / uncertain` judgments—not a made-up beauty score.
+- A task-based visual review with `improved / unchanged / worse / uncertain` judgments—not an invented beauty score.
+
+**Why visual review matters:** the first proposal passed every mechanical check, but put Continue below the phone's first fold. Viewing the screenshot caught it. The final CSS brings its bottom from y888 to y809 in an 844px viewport without changing the contract or deleting content. Balanced headings also remove an awkward orphan word. The [first draft screenshot](evidence/first-draft-phone.png) remains available.
 
 ## Reproduce the demo
 
-`demo/before` is a deliberately flawed, working educational fixture authored for this project. `demo/after` is a CSS-only treatment proposal, not yet visually verified. HTML and JavaScript remain byte-identical. They are not a real user's app or proof of general model uplift.
+`demo/before` is a deliberately flawed, working educational fixture. `demo/after` is the reviewed CSS-only treatment; HTML and JavaScript are byte-identical.
 
 ```sh
 npm install
@@ -42,10 +65,12 @@ npm run demo:verify
 CHROMIUM_PATH=/usr/bin/chromium npm run demo:verify
 ```
 
-Use an authorized environment that permits local preview servers and Chromium. Evidence is written under `evidence/run-*`. The capture refuses to overwrite an existing snapshot. Unit tests cover broken-preservation and missing-proof cases; they do not certify aesthetic quality.
+Use an authorized environment that permits local preview servers and Chromium. Evidence is written under `evidence/run-*`. The capture refuses to overwrite an existing snapshot. The 20 unit tests cover broken-preservation and missing-proof cases; they do not certify aesthetic quality.
 
 Full instructions: [SKILL.md](skills/polish-proof/SKILL.md) · [receipt helper](skills/polish-proof/references/receipt.md) · [visual review rubric](skills/polish-proof/references/review.md).
 
-## Limits
+## Limits and tradeoffs
 
-The helper captures a fresh light-mode Chromium state, not all states or all browsers. It does not prove full accessibility, detect every overlay/clipping case, or cover canvas/shadow-root content. It cannot decide whether the interface is beautiful. A preview/browser permission failure remains a verification blocker, not a reason to invent a successful result. Inspect screenshots and run the actual product flows.
+More readable text and stacked lessons increase vertical scrolling: tablet Review and part of desktop Explore move below the initial fold. This treatment prioritizes continuing a lesson; a review-first product would need a different decision. Help's visual button affordance is weaker. These are tradeoffs, not hidden wins.
+
+The helper captures a fresh light-mode Chromium state, not all states or browsers. It does not prove full accessibility, detect every overlay/clipping case, or cover canvas/shadow-root content. It cannot decide whether an interface is beautiful. A preview permission failure remains a verification blocker, not a reason to invent a successful result.
