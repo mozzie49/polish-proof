@@ -65,9 +65,15 @@ npm run demo:verify
 CHROMIUM_PATH=/usr/bin/chromium npm run demo:verify
 ```
 
-Use an authorized environment that permits local preview servers and Chromium. Evidence is written under `evidence/run-*`. The capture refuses to overwrite an existing snapshot. The 20 unit tests cover broken-preservation and missing-proof cases; they do not certify aesthetic quality.
+Use an authorized environment that permits local preview servers and Chromium. Evidence is written under `evidence/run-*`. The capture refuses to overwrite an existing snapshot. The unit tests cover broken-preservation and missing-proof cases; they do not certify aesthetic quality.
 
 Full instructions: [SKILL.md](skills/polish-proof/SKILL.md) · [receipt helper](skills/polish-proof/references/receipt.md) · [visual review rubric](skills/polish-proof/references/review.md).
+
+## Optional compact report images
+
+For long pages, set `"viewportCompanion": true` in the capture contract before taking both sides. The helper keeps `phone.png` as full-page evidence and adds `phone.viewport.png` directly from the same browser page and viewport. Receipts include image dimensions, hashes and framing. Link both; the compact view intentionally omits below-fold content. [Contract example and limits](skills/polish-proof/references/receipt.md).
+
+`npm run demo:verify` also exercises a synthetic 375×4777px page: the original remains full height, the companion is 375×812px, filenames/hashes/frames are verified, and the paired receipt must pass. This regression fixture addresses a [reported screenshot-reporting failure](https://github.com/anthropics/claude-code/issues/104618), not a reproduction of its macOS cropping-tool behavior.
 
 ## Limits and tradeoffs
 

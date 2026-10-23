@@ -30,3 +30,9 @@ The current fixture is authored for this demo. It is not the Reddit user's app, 
 ## Adoption test before broad promotion
 
 After publication and outreach are separately authorized: offer one scoped screen repair to the original requester, return their real before/after and invariant/behavior evidence, and ask whether they used it or would use it again. Count actual installs/uses/repeated use separately from stars. If they already use a tool that does this better, contribute the missing proof piece there rather than create a redundant competing catalog. No outreach has been made.
+
+## Concrete follow-on gap: compact report screenshots
+
+On 2026-10-23, [Claude Code issue #104618](https://github.com/anthropics/claude-code/issues/104618) reported a 375×4777px phone screenshot, repeated post-crop difficulties, and eventual omission of the images from a report. The issue body was read directly. Its specific macOS tool behavior has not been independently reproduced here; this is one reported workflow failure, not an adoption signal.
+
+Polish Proof originally captured only full-page PNGs. The narrow response is an optional capture-time viewport companion plus filename/dimension/hash/framing metadata, while retaining the full-page original. We do not adopt a universal “never crop” rule or claim every report image should be a fixed-size JPEG. The long-page fixture checks the two complementary views and preserves below-fold evidence. No source-issue outreach has been made.
