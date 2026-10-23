@@ -6,6 +6,7 @@ const crypto = require('node:crypto');
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 function validateContract(c) {
   if (c.version !== 1 || !Array.isArray(c.viewports) || !c.viewports.length) throw Error('Contract needs version: 1 and viewports');
+  if (c.viewportCompanion !== undefined && typeof c.viewportCompanion !== 'boolean') throw Error('viewportCompanion must be a boolean');
   const names = new Set();
   for (const v of c.viewports) {
     if (!/^[a-z0-9-]+$/.test(v.name) || names.has(v.name) || !Number.isInteger(v.width) || !Number.isInteger(v.height) || v.width < 200 || v.height < 200 || v.width > 4000 || v.height > 4000) throw Error('Invalid or duplicate viewport');
@@ -28,6 +29,26 @@ function protectedHashes(root, files) {
     return [f, hash(fs.readFileSync(real))];
   }));
 }
+function pngDimensions(bytes) {
+  if (bytes.length < 24 || !bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])) || bytes.toString('ascii',12,16) !== 'IHDR') throw Error('Expected a PNG screenshot');
+  const width=bytes.readUInt32BE(16),height=bytes.readUInt32BE(20);
+  if (!width || !height) throw Error('Invalid PNG dimensions');
+  return {width,height};
+}
+async function captureImages(page, out, viewport, companion) {
+  // Sequential captures on this page: no navigation, interaction, scrolling, or post-crop.
+  // Geometry drift fails explicitly; dynamic JS content still needs a project-native state harness.
+  const frame=()=>page.evaluate(()=>({width:innerWidth,height:innerHeight,scrollX,scrollY,documentWidth:document.documentElement.scrollWidth,documentHeight:document.documentElement.scrollHeight}));
+  const initial=await frame();
+  const screenshots={};
+  for (const kind of companion ? ['fullPage','viewport'] : ['fullPage']) {
+    const file=kind==='fullPage'?`${viewport.name}.png`:`${viewport.name}.viewport.png`;
+    const bytes=await page.screenshot({path:path.join(out,file),fullPage:kind==='fullPage',animations:'disabled'});
+    if (JSON.stringify(initial)!==JSON.stringify(await frame())) throw Error('Page geometry changed during screenshot capture; stabilize the page and use a new output directory');
+    screenshots[kind]={file,...pngDimensions(bytes),sha256:hash(bytes),frame:{width:initial.width,height:initial.height,scrollX:initial.scrollX,scrollY:initial.scrollY}};
+  }
+  return screenshots;
+}
 async function capture({url, contractPath, projectRoot, out, executablePath}) {
   const parsed = new URL(url);
   if (!['http:','https:'].includes(parsed.protocol) || !['localhost','127.0.0.1','[::1]'].includes(parsed.hostname)) throw Error('Only local HTTP(S) URLs are accepted. Run against an authorized local preview.');
@@ -39,7 +60,7 @@ async function capture({url, contractPath, projectRoot, out, executablePath}) {
   const protectedFiles = protectedHashes(projectRoot, contract.protectedFiles);
   const {chromium} = require('playwright');
   const browser = await chromium.launch({headless:true, ...(executablePath ? {executablePath} : {})});
-  const snapshot = {version:1, contract, url, capturedAt:new Date().toISOString(), browser:browser.version(), protectedFiles, views:[]};
+  const snapshot = {version:2, contract, url, capturedAt:new Date().toISOString(), browser:browser.version(), protectedFiles, views:[]};
   try {
     for (const viewport of contract.viewports) {
       const context = await browser.newContext({viewport:{width:viewport.width,height:viewport.height},deviceScaleFactor:1,colorScheme:'light',reducedMotion:'reduce',locale:'en-US',timezoneId:'UTC'});
@@ -48,7 +69,7 @@ async function capture({url, contractPath, projectRoot, out, executablePath}) {
       page.on('pageerror', error => errors.push(error.message));
       await page.goto(url, {waitUntil:'networkidle',timeout:15000});
       await page.evaluate(() => document.fonts.ready);
-      await page.screenshot({path:path.join(out, `${viewport.name}.png`),fullPage:true,animations:'disabled'});
+      const screenshots=await captureImages(page,out,viewport,contract.viewportCompanion===true);
       const data = await page.evaluate(targets => {
         const norm = s => s.replace(/\s+/g,' ').trim();
         const visible = el => { const s=getComputedStyle(el),r=el.getBoundingClientRect(); return r.width>0 && r.height>0 && s.visibility!=='hidden' && s.display!=='none' && Number(s.opacity)!==0; };
@@ -65,7 +86,7 @@ async function capture({url, contractPath, projectRoot, out, executablePath}) {
         });
         return {content,controls,overflowPx:Math.max(0,document.documentElement.scrollWidth-innerWidth),smallText,targets:measured};
       },contract.targets);
-      snapshot.views.push({viewport,...data,errors});
+      snapshot.views.push({viewport,...data,errors,screenshots});
       await context.close();
     }
     fs.writeFileSync(path.join(out,'snapshot.json'),JSON.stringify(snapshot,null,2)+'\n');
@@ -75,6 +96,7 @@ async function capture({url, contractPath, projectRoot, out, executablePath}) {
 function compare(before, after) {
   const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
   const failures = [];
+  if (before.version !== after.version) failures.push('Snapshot versions differ; recapture both sides with the same helper');
   if (!same(before.contract,after.contract)) failures.push('Capture contracts differ');
   if (before.browser !== after.browser) failures.push('Browser versions differ');
   if (!same(before.protectedFiles,after.protectedFiles)) failures.push('Protected source files changed');
@@ -88,6 +110,21 @@ function compare(before, after) {
     if (!same(a.controls,b.controls)) failures.push(`${b.viewport.name}: control contract changed`);
     if (a.errors.length) failures.push(`${b.viewport.name}: runtime errors`);
     if (a.overflowPx>0) failures.push(`${b.viewport.name}: horizontal overflow remains (${a.overflowPx}px)`);
+    if (before.version >= 2 || after.version >= 2 || before.contract.viewportCompanion || after.contract.viewportCompanion) {
+      const kinds=before.contract.viewportCompanion?['fullPage','viewport']:['fullPage'];
+      for (const side of [b,a]) {
+        for (const kind of kinds) {
+          const shot=side.screenshots?.[kind],v=side.viewport;
+          const file=kind==='fullPage'?`${v.name}.png`:`${v.name}.viewport.png`;
+          const dimensions=shot && Number.isInteger(shot.width) && Number.isInteger(shot.height) && (kind==='viewport' ? shot.width===v.width&&shot.height===v.height : shot.width>=v.width&&shot.height>=v.height);
+          const frame=shot?.frame;
+          if (!shot || shot.file!==file || !dimensions || !/^[a-f0-9]{64}$/.test(shot.sha256||'') || !frame || frame.width!==v.width || frame.height!==v.height || !Number.isFinite(frame.scrollX) || !Number.isFinite(frame.scrollY)) failures.push(`${v.name}: invalid or missing ${kind} screenshot evidence`);
+        }
+        if (!!side.screenshots?.viewport!==!!before.contract.viewportCompanion) failures.push(`${side.viewport.name}: viewport companion does not match contract`);
+        if (before.contract.viewportCompanion && !same(side.screenshots?.fullPage?.frame,side.screenshots?.viewport?.frame)) failures.push(`${side.viewport.name}: companion framing differs from full-page capture`);
+      }
+      for (const kind of kinds) if (!same(b.screenshots?.[kind]?.frame,a.screenshots?.[kind]?.frame)) failures.push(`${b.viewport.name}: ${kind} framing changed`);
+    }
     const checks=[];
     for (const t of before.contract.targets) {
       const m=a.targets.find(x=>x.name===t.name);
@@ -95,7 +132,7 @@ function compare(before, after) {
       checks.push({name:t.name,pass,before:b.targets.find(x=>x.name===t.name),after:m});
       if (!pass) failures.push(`${b.viewport.name}: target ${t.name} failed its declared contract`);
     }
-    views.push({name:b.viewport.name,overflowBefore:b.overflowPx,overflowAfter:a.overflowPx,smallTextBefore:b.smallText.length,smallTextAfter:a.smallText.length,targets:checks});
+    views.push({name:b.viewport.name,overflowBefore:b.overflowPx,overflowAfter:a.overflowPx,smallTextBefore:b.smallText.length,smallTextAfter:a.smallText.length,targets:checks,...(b.screenshots||a.screenshots?{screenshots:{before:b.screenshots,after:a.screenshots}}:{})});
   }
   return {version:1,verdict:failures.length?'needs-attention':'mechanical-checks-pass',failures,views,limitations:['This is not an aesthetic score or full accessibility audit.','Text/control/source invariants do not prove behavior; run project interaction tests.','Visual judgment still requires viewing the paired screenshots.','Small text count uses a reporting-only 14px threshold, not a universal design rule.']};
 }
@@ -112,5 +149,5 @@ async function main() {
     fs.writeFileSync(args.out,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));process.exitCode=result.failures.length?1:0;
   } else throw Error('Commands: capture --url LOCAL_URL --contract FILE --project-root DIR --out DIR [--chromium PATH]; compare --before FILE --after FILE --out FILE');
 }
-module.exports={capture,compare,validateContract,protectedHashes};
+module.exports={capture,compare,validateContract,protectedHashes,pngDimensions,captureImages};
 if(require.main===module) main().catch(e=>{console.error(e.message);process.exitCode=2;});

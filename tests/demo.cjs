@@ -6,6 +6,7 @@ const http=require('node:http');
 const assert=require('node:assert/strict');
 const {capture,compare}=require('../skills/polish-proof/scripts/receipt.cjs');
 const {chromium}=require('playwright');
+const {verifyViewportCompanion}=require('./viewport-companion.cjs');
 const root=path.resolve(__dirname,'..');
 const out=path.resolve(process.env.PROOF_OUT||path.join(root,'evidence',`run-${Date.now()}`));
 const executablePath=process.env.CHROMIUM_PATH;
@@ -59,7 +60,8 @@ async function flows(browser,url,viewport){
     const results=[];
     try{for(const name of ['before','after'])for(const viewport of [{width:390,height:844},{width:1440,height:1000}])results.push({variant:name,...await flows(browser,`${base}/demo/${name}/`,viewport)});}finally{await browser.close()}
     fs.writeFileSync(path.join(out,'interactions.json'),JSON.stringify(results,null,2));
-    console.log(JSON.stringify({out,verdict:receipt.verdict,interactionRuns:results.length,failures:receipt.failures},null,2));
+    const viewportCompanion=await verifyViewportCompanion({base,root,out,executablePath});
+    console.log(JSON.stringify({out,verdict:receipt.verdict,interactionRuns:results.length,viewportCompanion,failures:receipt.failures},null,2));
     process.exitCode=receipt.failures.length?1:0;
   }finally{await new Promise(resolve=>server.close(resolve))}
 })().catch(error=>{console.error(error.stack);process.exitCode=2;server.close()});
